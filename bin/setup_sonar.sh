@@ -19,7 +19,7 @@ sleep 15
 oc wait --for=condition=Ready --timeout=300s pods -l name=postgresql -n $CICD_PROJECT
 # check_pod "postgresql"
 clear;echo "Setup SonarQube..."
-oc new-app  --docker-image=quay.io/gpte-devops-automation/sonarqube:$SONARQUBE_VERSION --env=SONARQUBE_JDBC_USERNAME=sonar --env=SONARQUBE_JDBC_PASSWORD=sonar --env=SONARQUBE_JDBC_URL=jdbc:postgresql://postgresql/sonar --labels=app=sonarqube
+oc new-app  sonarqube --env=ALLOW_EMPTY_PASSWORD=yes --env=SONARQUBE_JDBC_USERNAME=sonar --env=SONARQUBE_JDBC_PASSWORD=sonar --env=SONARQUBE_JDBC_URL=jdbc:postgresql://postgresql:5432/sonar --env=JAVA_OPTS="-Duser.timezone=Asia/Jakarta -Xmx2048m" --labels=app=sonarqube
 oc rollout pause deployment sonarqube
 oc annotate deployment sonarqube 'app.openshift.io/connects-to=[{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"postgresql"}]'
 oc label deployment sonarqube app.kubernetes.io/part-of=Code-Quality -n ${CICD_PROJECT}
