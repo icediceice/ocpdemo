@@ -47,7 +47,8 @@ spec:
           value: "true"
         - name: USE_INTERNAL_REGISTRY
           value: "false"
-        - name:
+        - name: SONAR_SECRET
+          value: sonar-token
     type: JenkinsPipeline
   successfulBuildsHistoryLimit: 5
   triggers: []
