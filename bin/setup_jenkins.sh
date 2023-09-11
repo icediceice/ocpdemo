@@ -10,8 +10,7 @@ CICD_NEXUS_USER=jenkins
 CICD_NEXUS_USER_SECRET=$(echo $CICD_NEXUS_USER|base64)
 oc project ${CICD_PROJECT}
 clear;echo "Setup Jenkins..."
-oc new-app jenkins-persistent --param ENABLE_OAUTH=true --param MEMORY_LIMIT=2Gi \
---param VOLUME_CAPACITY=${JENKINS_PVC_SIZE} --param DISABLE_ADMINISTRATIVE_MONITORS=true
+oc process jenkins-persistent -n openshift -p ENABLE_OAUTH=true -p MEMORY_LIMIT=2Gi -p VOLUME_CAPACITY=${JENKINS_PVC_SIZE} -p DISABLE_ADMINISTRATIVE_MONITORS=true | oc create -f -
 oc set resources dc jenkins --limits=memory=2Gi,cpu=2 --requests=memory=1Gi,cpu=500m
 oc label dc jenkins app.kubernetes.io/name=Jenkins -n $CICD_PROJECT
 oc label dc jenkins app.openshift.io/runtime=jenkins -n $CICD_PROJECT
