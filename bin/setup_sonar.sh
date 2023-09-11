@@ -9,12 +9,12 @@ UAT_PROJECT=uat
 SONAR_PVC_SIZE="10Gi"
 oc project $CICD_PROJECT
 echo "Setup PostgreSQL for SonarQube..."
-oc new-app  --template=postgresql-persistent \
+oc process  postgresql-persistent -n openshift \
 --param POSTGRESQL_USER=sonar \
 --param POSTGRESQL_PASSWORD=sonar \
 --param POSTGRESQL_DATABASE=sonar \
 --param VOLUME_CAPACITY=${SONAR_PVC_SIZE} \
---labels=app=sonarqube_db,app.openshift.io/runtime=postgresql
+--labels=app=sonarqube_db,app.openshift.io/runtime=postgresql | oc create -f -
 sleep 15
 oc wait --for=condition=Ready --timeout=300s pods -l name=postgresql -n $CICD_PROJECT
 # check_pod "postgresql"
