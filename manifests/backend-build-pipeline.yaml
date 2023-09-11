@@ -15,7 +15,7 @@ spec:
     contextDir: Jenkinsfile/build
     git:
       ref: cve
-      uri: https://gitlab.com/ocp-demo/backend_quarkus.git
+      uri: https://gitlab.com/icediceice/backend_quarkus_stackrox.git
     # sourceSecret:
     #   name: gogs-secret
     type: Git
@@ -44,9 +44,10 @@ spec:
         - name: ROX_CENTRAL_ADDRESS
           value: central.stackrox:443
         - name: STACKROX_PLUGIN
-          value: "false"
+          value: "true"
         - name: USE_INTERNAL_REGISTRY
           value: "false"
+        - name:
     type: JenkinsPipeline
   successfulBuildsHistoryLimit: 5
   triggers: []
