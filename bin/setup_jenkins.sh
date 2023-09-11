@@ -59,6 +59,7 @@ oc secrets link builder nexus-svc-registry -n $CICD_PROJECT
 oc import-image maven36-with-tools --from=quay.io/voravitl/maven36-with-tools --all --confirm -n $CICD_PROJECT
 END_BUILD=$(date +%s)
 BUILD_TIME=$(expr ${END_BUILD} - ${START_BUILD})
+oc annotate sa jenkins serviceaccounts.openshift.io/oauth-redirectreference.jenkins='{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"jenkins"}}'
 clear
 echo "Jenkins URL = $(oc get route jenkins -n ${CICD_PROJECT} -o jsonpath='{.spec.host}')"
 echo "Jenkins will use user/password store in secret nexus-credential to access nexus"
