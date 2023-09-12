@@ -190,7 +190,7 @@ clear;echo "Setup Nexus..."
 oc new-app sonatype/nexus3:${NEXUS_VERSION} --name=nexus -n ${CICD_PROJECT}
 oc create route edge nexus --service=nexus --port=8081
 oc rollout pause deployment nexus -n ${CICD_PROJECT}
-oc set resources deployment nexus --limits=memory=2Gi,cpu=2 --requests=memory=1Gi,cpu=500m -n ${CICD_PROJECT}
+oc set resources deployment nexus --limits=memory=4Gi,cpu=4 --requests=memory=1Gi,cpu=500m -n ${CICD_PROJECT}
 oc set volume deployment/nexus --remove --confirm -n ${CICD_PROJECT}
 oc set volume deployment/nexus --add --overwrite --name=nexus-pv-1 \
 --mount-path=/nexus-data/ --type persistentVolumeClaim \
