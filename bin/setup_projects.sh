@@ -10,6 +10,7 @@ oc new-project $STAGE  --display-name="Staging Environment"
 oc new-project $UAT --display-name="User Acceptance Test Environment"
 oc new-project $PROD --display-name="Production Environment"
 oc new-project $CI_CD  --display-name="CI/CD Tools"
+oc create sa jenkins
 echo "Set $DEV,$STAGE,$UAT,$PROD to pull image from CI_CD"
 oc policy add-role-to-group system:image-puller system:serviceaccounts:${DEV} -n ${CI_CD}
 oc policy add-role-to-group system:image-puller system:serviceaccounts:${STAGE} -n ${CI_CD}
